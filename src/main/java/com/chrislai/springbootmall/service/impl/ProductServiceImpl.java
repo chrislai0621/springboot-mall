@@ -8,10 +8,17 @@ import com.chrislai.springbootmall.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao;
+
+    @Override
+    public List<Product> getProducts() {
+        return productDao.getProducts();
+    }
 
     @Override
     public Product getProductId(Integer productId) {
@@ -25,6 +32,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateProduct(Integer productId, ProductRequest request) {
-        productDao.updateProduct(productId,request);
+        productDao.updateProduct(productId, request);
     }
+
+    @Override
+    public void deleteProduct(Integer productId) {
+        productDao.deleteProduct(productId);
+    }
+
+
 }
