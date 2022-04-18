@@ -1,12 +1,13 @@
 package com.chrislai.springbootmall.service;
 
+import com.chrislai.springbootmall.dto.ProductQueryRequest;
 import com.chrislai.springbootmall.dto.ProductRequest;
 import com.chrislai.springbootmall.model.Product;
 
 import java.util.List;
 
 public interface ProductService {
-    List<Product> getProducts();
+    List<Product> getProducts(ProductQueryRequest productQueryRequest);
 
     Product getProductId(Integer productId);
 

@@ -1,5 +1,7 @@
 package com.chrislai.springbootmall.controller;
 
+import com.chrislai.springbootmall.constant.ProductCategory;
+import com.chrislai.springbootmall.dto.ProductQueryRequest;
 import com.chrislai.springbootmall.dto.ProductRequest;
 import com.chrislai.springbootmall.model.Product;
 import com.chrislai.springbootmall.service.ProductService;
@@ -17,8 +19,12 @@ import java.util.Objects;
 public class ProductController {
     private final ProductService productService;
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts() {
-       List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(@RequestParam(required = false) ProductCategory category,
+                                                     @RequestParam(required = false) String search) {
+        ProductQueryRequest productQueryRequest = new ProductQueryRequest();
+        productQueryRequest.setCategory(category);
+        productQueryRequest.setSearch(search);
+       List<Product> productList = productService.getProducts(productQueryRequest);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
     @GetMapping("/products/{productId}")
