@@ -30,15 +30,8 @@ public class ProductDaoImpl implements ProductDao {
                 "stock, description, created_date, last_modified_date from product" +
                 " where 1=1";
         Map<String, Object> map = new HashMap<>();
-        //查詢條件
-        if (productQueryRequest.getCategory() != null) {
-            sql += " AND category = :category";
-            map.put("category", productQueryRequest.getCategory().name());
-        }
-        if (productQueryRequest.getSearch() != null) {
-            sql += " AND product_name like :search";
-            map.put("search", "%" + productQueryRequest.getSearch() + "%");
-        }
+
+        sql = addFilteringSql(sql,map,productQueryRequest);
         //排序
         sql += " ORDER BY " + productQueryRequest.getOrderBy() + " " + productQueryRequest.getSort();
 
@@ -56,16 +49,7 @@ public class ProductDaoImpl implements ProductDao {
         String sql = "Select  count(*) from product" +
                 " where 1=1";
         Map<String, Object> map = new HashMap<>();
-        //查詢條件
-        if (productQueryRequest.getCategory() != null) {
-            sql += " AND category = :category";
-            map.put("category", productQueryRequest.getCategory().name());
-        }
-        if (productQueryRequest.getSearch() != null) {
-            sql += " AND product_name like :search";
-            map.put("search", "%" + productQueryRequest.getSearch() + "%");
-        }
-
+        sql = addFilteringSql(sql,map,productQueryRequest);
         //queryForObject 通常用在COUNT
         return namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
     }
@@ -134,5 +118,25 @@ public class ProductDaoImpl implements ProductDao {
         Map<String, Object> map = new HashMap<>();
         map.put("productId", productId);
         namedParameterJdbcTemplate.update(sql, map);
+    }
+
+    /**
+     * 查詢條件
+     * @param sql
+     * @param map
+     * @param productQueryRequest
+     * @return
+     */
+    private String addFilteringSql(String sql,Map<String,Object> map,ProductQueryRequest productQueryRequest)
+    {
+        if (productQueryRequest.getCategory() != null) {
+            sql += " AND category = :category";
+            map.put("category", productQueryRequest.getCategory().name());
+        }
+        if (productQueryRequest.getSearch() != null) {
+            sql += " AND product_name like :search";
+            map.put("search", "%" + productQueryRequest.getSearch() + "%");
+        }
+        return  sql;
     }
 }
