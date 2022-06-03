@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService {
             log.warn("該EMAIL:{}已被註冊", request.getEmail());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+        //使用MD5 生成密碼的HASH
+        String hashedPassword = DigestUtils.md5DigestAsHex(request.getPassword().getBytes());
+        request.setPassword(hashedPassword);
         return userDao.createUser(request);
 
     }
@@ -40,7 +44,9 @@ public class UserServiceImpl implements UserService {
             log.warn("該EMAIL:{}尚未註冊", request.getEmail());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        if (user.getPassword().equals(request.getPassword())) {
+        //使用MD5 生成密碼的雜湊值
+        String hashedPassword = DigestUtils.md5DigestAsHex(request.getPassword().getBytes());
+        if (user.getPassword().equals(hashedPassword)) {
             return user;
         } else {
             log.warn("email : {} 的密碼不正確", request.getEmail());
