@@ -1,5 +1,6 @@
 package com.chrislai.springbootmall.controller;
 
+import com.chrislai.springbootmall.dto.UserLoginRequest;
 import com.chrislai.springbootmall.dto.UserRegisterRequest;
 import com.chrislai.springbootmall.model.User;
 import com.chrislai.springbootmall.service.UserService;
@@ -22,5 +23,10 @@ public class UserController {
         Integer userId = userService.register(request);
         User user = userService.getUserById(userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+    @PostMapping("users/login")
+    public ResponseEntity<User> login(@RequestBody @Valid UserLoginRequest request) {
+        User user = userService.login(request);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
