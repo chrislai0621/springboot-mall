@@ -3,7 +3,6 @@ package com.chrislai.springbootmall.dao.rowmapper;
 import com.chrislai.springbootmall.constant.ProductCategory;
 import com.chrislai.springbootmall.model.Product;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
