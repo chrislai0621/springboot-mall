@@ -1,6 +1,7 @@
 package com.chrislai.springbootmall.controller;
 
 import com.chrislai.springbootmall.dto.CreateOrderRequest;
+import com.chrislai.springbootmall.model.Order;
 import com.chrislai.springbootmall.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,10 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/users/{userId}/orders")
-    public ResponseEntity<Integer> createOrder(@PathVariable Integer userId,
+    public ResponseEntity<?> createOrder(@PathVariable Integer userId,
                                        @RequestBody @Valid CreateOrderRequest request) {
         Integer orderId = orderService.createOrder(userId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
+        Order order = orderService.getOrderById(orderId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 }
