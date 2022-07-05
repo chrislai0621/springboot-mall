@@ -8,14 +8,10 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class Product {
-    private Integer productId;
-    private String productName;
-    private ProductCategory category;
-    private String imageUrl;
-    private Integer price;
-    private Integer stock;
-    private String description;
+public class Order {
+    private Integer orderId;
+    private Integer userId;
+    private Integer totalAmount;
     private Date createdDate;
     private Date lastModifiedDate;
 
