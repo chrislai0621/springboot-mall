@@ -1,5 +1,6 @@
 package com.chrislai.springbootmall.dao;
 
+import com.chrislai.springbootmall.dto.OrderQueryParams;
 import com.chrislai.springbootmall.model.Order;
 import com.chrislai.springbootmall.model.OrderItem;
 
@@ -13,5 +14,11 @@ public interface OrderDao {
     Integer createOrder(Integer userId, Integer totalAmount);
 
     void createOrderItems(Integer orderId, List<OrderItem> orderItemList);
+
+    Integer countOrder(OrderQueryParams orderQueryParams);
+
+    List<Order> getOrders(OrderQueryParams orderQueryParams);
+
+
 }
 
